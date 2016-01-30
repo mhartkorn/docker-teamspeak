@@ -13,18 +13,18 @@
 FROM   ubuntu:14.04
 
 # Set the Teamspeak version to download
-ENV    tsv=3.0.11.4
+ENV    tsv=3.0.12
 
 # Download and install everything from the repos.
 RUN    DEBIAN_FRONTEND=noninteractive \
         apt-get -y update && \
         apt-get -y upgrade
 
-# Download TeamSpeak 3
-ADD    http://dl.4players.de/ts/releases/${tsv}/teamspeak3-server_linux-amd64-${tsv}.tar.gz ./
+# Download and install TeamSpeak 3
+ADD    http://dl.4players.de/ts/releases/${tsv}/teamspeak3-server_linux_amd64-${tsv}.tar.bz2 ./teamspeak.tar.bz2
 
 # Unzip with root permissions and move to correct location
-RUN    tar --no-same-owner -zxf teamspeak3-server_linux-amd64-${tsv}.tar.gz; mv teamspeak3-server_linux-amd64 /opt/teamspeak; rm teamspeak3-server_linux-amd64-${tsv}.tar.gz
+RUN    tar --no-same-owner -axf teamspeak.tar.bz2; mv teamspeak3-server_linux_amd64 /opt/teamspeak; rm teamspeak.tar.bz2
 
 # Add TeamSpeak user
 RUN    useradd -s /usr/sbin/nologin teamspeak
@@ -41,4 +41,4 @@ VOLUME  ["/data"]
 USER    teamspeak
 WORKDIR /data
 ENV     LD_LIBRARY_PATH="/opt/teamspeak:${LD_LIBRARY_PATH}"
-CMD     ["/opt/teamspeak/ts3server_linux_amd64", "logpath=/data/logs", "dbsqlpath=/opt/teamspeak/sql/"]
+CMD     ["/opt/teamspeak/ts3server", "logpath=/data/logs", "dbsqlpath=/opt/teamspeak/sql/"]
