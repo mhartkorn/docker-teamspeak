@@ -34,6 +34,8 @@ name which is `overshard/teamspeak:latest`.
     sudo docker start <container_id>
     sudo docker stop <container_id>
 
+The TeamSpeak container will launch on docker daemon startup or relaunch on
+failure unless it has been stopped.
 
 ## Server Admin Token
 
