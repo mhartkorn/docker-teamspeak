@@ -2,7 +2,8 @@
 # Remove any running instance
 docker rm -f teamspeak > /dev/null 2>&1
 
-# Data-only volume -- only create if it doesn't exist so as to not lose data
+# Data-only volume -- backup just in case, only create if it doesn't exist so as to not lose data
+./ts3-backup.sh
 docker inspect teamspeak-data > /dev/null 2>&1 || docker run --name teamspeak-data teamspeak /bin/echo "Data-only container for TeamSpeak"
 
 # Server
