@@ -10,7 +10,7 @@
 # -----------------------------------------------------------------------------
 
 # Base system is the LTS version of Ubuntu.
-FROM   ubuntu:14.04
+FROM   debian:8
 
 # Set the Teamspeak version to download
 ENV    tsv=3.0.12.2
@@ -18,13 +18,14 @@ ENV    tsv=3.0.12.2
 # Download and install everything from the repos.
 RUN    DEBIAN_FRONTEND=noninteractive \
         apt-get -y update && \
-        apt-get -y upgrade
+        apt-get -y upgrade && \
+        apt-get -y install bzip2 curl && \
+        rm -fr /var/lib/apt/lists/*
 
 # Download and install TeamSpeak 3
-ADD    http://dl.4players.de/ts/releases/${tsv}/teamspeak3-server_linux_amd64-${tsv}.tar.bz2 ./teamspeak.tar.bz2
-
 # Unzip with root permissions and move to correct location
-RUN    tar --no-same-owner -axf teamspeak.tar.bz2; mv teamspeak3-server_linux_amd64 /opt/teamspeak; rm teamspeak.tar.bz2
+RUN    curl http://dl.4players.de/ts/releases/${tsv}/teamspeak3-server_linux_amd64-${tsv}.tar.bz2 | tar -xj --no-same-owner && \
+       mv teamspeak3-server_linux_amd64 /opt/teamspeak
 
 # Add TeamSpeak user
 RUN    useradd -s /usr/sbin/nologin teamspeak
