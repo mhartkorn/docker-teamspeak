@@ -37,6 +37,21 @@ You can start and stop TeamSpeak by running:
 The TeamSpeak container will automatically launch on docker daemon startup or relaunch on
 failure unless it has been stopped; this is via docker's `--restart unless-stopped` option.
 
+## Restricted resource usage
+
+The TeamSpeak container is limited to 100m of RAM and, where supported, 100m of swap.  Light testing
+suggests this is good enough for most personal TS servers (i.e. with less than 20 users).  This can
+be adjusted by modifying the `--memory` option in `ts3-start.sh`.
+
+You may get a warning relating to limits on startup, for example:
+
+    WARNING: Your kernel does not support swap limit capabilities, memory limited without swap.
+
+This particular message means that RAM usage has been limited but swap has not.
+
+To remove the warnings and enforce the limits, follow the the instructions [in the Docker
+docs][docker-memory] to enable support in your kernel.
+
 ## Managing TeamSpeak's data
 
 The TeamSpeak server's data is stored in a data-only container called `teamspeak-data`.
@@ -72,4 +87,5 @@ Benjamin Denhartog has created an alternative [MurMur/Mumble server][2] if you'r
 
 [0]: http://www.docker.io/gettingstarted/
 [1]: http://teamspeak.com/
+[docker-memory]: https://docs.docker.com/engine/installation/linux/ubuntulinux/#adjust-memory-and-swap-accounting
 [2]: https://github.com/bddenhartog/docker-murmur

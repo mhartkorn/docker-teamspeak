@@ -6,4 +6,4 @@ docker rm -f teamspeak > /dev/null 2>&1
 docker inspect teamspeak-data > /dev/null 2>&1 || docker run --name teamspeak-data teamspeak /bin/echo "Data-only container for TeamSpeak"
 
 # Server
-docker run --name teamspeak --detach --restart unless-stopped --publish 9987:9987/udp --publish 10011:10011 --publish 30033:30033 --volumes-from teamspeak-data teamspeak
+docker run --name teamspeak --detach --restart unless-stopped --publish 9987:9987/udp --publish 10011:10011 --publish 30033:30033 --volumes-from teamspeak-data --memory 100m teamspeak
