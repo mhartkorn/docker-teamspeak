@@ -13,7 +13,7 @@
 FROM   debian:8
 
 # Set the Teamspeak version to download
-ENV    tsv=3.0.12.2
+ENV    tsv=3.0.12.3
 
 # Download and install everything from the repos.
 RUN    DEBIAN_FRONTEND=noninteractive \
